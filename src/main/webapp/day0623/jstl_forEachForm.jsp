@@ -1,23 +1,26 @@
-<%@page import="java.util.Calendar"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="day0623.ForEachService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<%-- <jsp:include page="../include/external_file.jsp"/> --%>
-<%@ include file="../fragments/external_file.jsp" %>
+<!-- 변수와 메소드 공유 불가능 -->
+<jsp:include page="../fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -100,8 +103,9 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
 </head>
 <body>
@@ -164,7 +168,7 @@
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<jsp:include page="../fragments/navigationBar.jsp"/>
+			<jsp:include page="../fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
@@ -176,91 +180,87 @@
   ================================================== -->
 		<!-- Wrap the rest of the page in another container to center all the content. -->
 		<div class="container marketing">
-			<!-- <form> 태그에 action 속성을 정의하지 않으면 submit이 되었을 떄 자신 페이지를 재 요청하게 된다. -->
+			<!-- form태그에 action속성을 정의하지 않으면 submit이 되었을때 자신 페이지를 재요청한다. -->
 			<form method="post">
-				<label>이름</label>
-				<input type="text" name="name" value="테스트"/>
+				<label>이름</label><input type="text" name="name" value="테스트"/>
 				<br>
 				<label>관심언어</label>
 				<%
-				ForEachService fes=new ForEachService();
+				ForEachService fes = new ForEachService();
 				//pageContext.setAttribute("subjectData", fes.subjectArr());
 				pageContext.setAttribute("subjectData", fes.subjectList());
 				pageContext.setAttribute("userData", fes.searchUser());
 				
-				Calendar cal=Calendar.getInstance();
-				int year=cal.get(Calendar.YEAR);
-				pageContext.setAttribute("year", year);
 				%>
-				<c:forEach var="subject" items="${subjectData }" varStatus="i">
-				<input type="checkbox" name="lang" value="${subject }"/>
-				<c:out value="${i.last }"/>
-				<c:if test="${i.last or i.first }"><span style="font-weight : bold"></c:if>
-				<c:out value="${subject }"/>
-				<c:if test="${i.first or i.last}"></span></c:if>
+				<c:forEach var="subject" items="${ subjectData }" varStatus="i">
+				<input type="checkbox" name="lang" value="${ subject }"/>
+				<%-- <c:out value="${ i.first }"/> --%>
+				<c:if test="${ i.first or i.last}"><strong></c:if>
+				<c:out value="${ subject }"/>
+				<c:if test="${ i.first or i.last }"></strong></c:if>
 				</c:forEach>
-				
-				<%-- <input type="checkbox" name="lang" value="Java SE"/>Java SE
-				<input type="checkbox" name="lang" value="C/C++"/>C/C++
-				<input type="checkbox" name="lang" value="Python"/>Python
-				<input type="checkbox" name="lang" value="PHP"/>PHP
-				<input type="checkbox" name="lang" value="JavaScript"/>JavaScript--%><br>
-				<button class="btn btn-success btn-sm">전송</button>
+				<br>
+				<button class="btn btn-sm btn-success">전송</button>
 			</form>
-			<div>
-			<%request.setCharacterEncoding("UTF-8"); %>
-			<c:if test="${not empty param.name }">
-			<!--web parameter name값이 존재하면 선택된 checkbox의 값을 출력 -->
-			<span><c:out value="${param.name }님"/></span>이 선택하신 언어는 <br>
-			<c:if test="${empty paramValues.lang }">없습니다.</c:if>
+		 	<div>
+			<% request.setCharacterEncoding("UTF-8");
+			LocalDate ld = LocalDate.now();
+			pageContext.setAttribute("year", ld.getYear());
+			%>
+			<c:if test="${ not empty param.name }">
+			<!-- 웹 파라메터의 name 값이 존재하면 선택된 체크박스의 값을 출력 -->
+				<span><c:out value="${ param.name }"/></span>님이 선택하신 언어는<br>
+				<c:if test="${ empty paramValues.lang }">없습니다.</c:if>
 			<ul>
-			<c:forEach var="lang" items="${paramValues.lang }" varStatus="i">
-			<li><c:out value="${i.count }. ${lang }"/> </li>
-			</c:forEach>
-			</ul>
+				<c:forEach var="lang" items="${ paramValues.lang }" varStatus="i">
+				<li><c:out value="${ i.count } ${ lang }"/></li>
+				</c:forEach>
+				</ul>
 			</c:if>
 			</div>
-			
 			<div>
 			<table class="table table-hover">
-			<thead>
-			<tr>
-			<th>번호</th>
-			<th>이름</th>
-			<th>이메일</th>
-			<th>나이</th>
-			</tr>
-			<tbody>
-			<c:if test="${empty userData }">
-			<tr>
-			<td colspan="4" style="text-align: center;">회원의 정보가 존재하지 않습니다.</td>
-			</tr>
-			</c:if>
-			<c:forEach var="uDTO2" items="${userData }" varStatus="i">
-			<c:set var="totalAge" value="${uDTO2.age + totalAge }"/>
-			<tr>
-			<td><c:out value="${i.count }"/></td>
-			<td><c:out value="${uDTO2.myName }"/></td>
-			<td><c:out value="${uDTO2.email }"/></td>
-			<td><c:out value="${uDTO2.age } / (${ year - uDTO2.age })"/></td>
-			</tr>
-			<c:if test="${i.last }">
-			<tr>
-			<td colspan="3">나이의 합</td>
-			<td><c:out value="${totalAge }세"/></td></tr>
-			</c:if>
-			</c:forEach>
-			</tbody>
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>이름</th>
+						<th>이메일</th>
+						<th>나이</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:if test="${ empty userData }">
+						<tr>
+							<td colspan="4" style="text-align: center;">회원 정보가 존재하지 않습니다.</td>
+						</tr>
+					</c:if>
+					<c:forEach var="uDTO2" items="${ userData }" varStatus="i">
+					<c:set var="totalAge" value="${ uDTO2.age + totalAge }"/>
+						<tr>
+							<td><c:out value="${ i.count }"/></td>
+							<td><c:out value="${ uDTO2.myName }"/></td>
+							<td><c:out value="${ uDTO2.email }"/></td>
+							<td><c:out value="${ uDTO2.age } / ${ year - uDTO2.age + 1}"/></td>
+						</tr>
+						<c:if test="${ i.last }">
+						<tr>
+							<td colspan="3">나이의 합</td>
+							<td><c:out value="${ totalAge / i.count }"/></td>
+						</tr>
+						</c:if>
+					</c:forEach>
+				</tbody>
 			</table>
-			</div>
+			</div> 
 		</div>
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<jsp:include page="../fragments/footer.jsp"/>
+			<jsp:include page="../fragments/footer.jsp"/>			
 		</footer>
 	</main>
-	<script src="http://localhost/jsp_prj/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

@@ -1,20 +1,17 @@
 <%@page import="java.util.UUID"%>
-<%@page import="java.util.Enumeration"%>
 <%@page import="java.io.IOException"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
-<%@page import="java.awt.DefaultFocusTraversalPolicy"%>
-<%@page import="javax.swing.text.DefaultTextUI"%>
 <%@page import="java.io.File"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="../include/siteProperty.jsp" %>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../include/siteProperty.jsp" %>
 <%
-if(!"POST".equals(request.getMethod())){
+if (!"POST".equals(request.getMethod())){
 	response.sendRedirect("uploadForm.jsp");
 	return;
-}//end if
+}
 %>
 
 <!DOCTYPE html>
@@ -23,13 +20,18 @@ if(!"POST".equals(request.getMethod())){
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<%-- <jsp:include page="../include/external_file.jsp"/> --%>
-<c:import url="${CommonURL}/fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 불가능 -->
+<c:import url="${CommonUrl}/fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -112,8 +114,9 @@ if(!"POST".equals(request.getMethod())){
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
 </head>
 <body>
@@ -176,76 +179,73 @@ if(!"POST".equals(request.getMethod())){
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<c:import url="${CommonURL}/fragments/navigationBar.jsp"/>
+			<c:import url="${ CommonUrl }/fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
-		<div style="margin-top:50px">
+		
+		<div style="margin-top: 50px;">
 		<%
-		//파일을 저장한 디렉토리 설정
-		File saveDir=new File("C:/Users/cokejelly/git/jsp_prj/jsp_prj/src/main/webapp/upload/profile");
+		//파일을 저장할 디렉토리 설정
+		File saveDir = new File("C:/Users/user/git/jsp_prj/jsp_prj/src/main/webapp/upload");
 		
-		//업로드 파일의 최대 크기 설정 // 10Mbyte
-		int maxSize=1024*1024*10;
-		//업로드 파일이 이미지 였을 떄에만 업로드 처리
+		//파일 최대 크기 설정
+		int uploadMaxSize = 1024 * 1024 * 100;
+		int maxSize = 1024 * 1024 * 10;
 		
-		/* if(!request.getContextPath().contains("image")){
+		//
+		MultipartRequest mr = new MultipartRequest(request, saveDir.getAbsolutePath(), uploadMaxSize, "UTF-8", new DefaultFileRenamePolicy());
+		
+		//업로드 파일이 이미지 파일일 때만 업로드
+	/* 	if(!mr.getContentType("upfile").contains("image/")){
 			out.println("이미지만 업로드 가능합니다.");
-			return;
-		}//end if */
-		
-		//업로드 파일의 허용 크기를 크게 설정 //100Mbyte
-		int uploadMaxSize=1024*1024*100;
+		} */
 		
 		try{
-		MultipartRequest mr=new MultipartRequest(request, saveDir.getAbsolutePath(), uploadMaxSize, "UTF-8", new DefaultFileRenamePolicy());
 		
-		//out.println(mr.getContentType("upfile"));
 		
-		/* if(!mr.getContentType("upfile").contains("image/")){
-			out.println("이미지 아님");
-		} */
 		//10Mbyte를 초과하는 파일이 업로드 된다.
-		String fileName=mr.getFilesystemName("upfile");
-		File uploadFile=new File(saveDir.getAbsolutePath() +File.separator + fileName);
-		boolean uploadFlag=false;
-		if(uploadFlag=(uploadFile.length() > maxSize)){//업로드된 파일의 크기가 제한 파일의 크기보다 크다면 삭제한다.
+		String fileName = mr.getFilesystemName("upfile");
+		File uploadFile = new File(saveDir.getAbsolutePath()+ File.separator + fileName);
+		boolean uploadFlag = false;
+		//업로드된 파일의 크기가 제한파일의 크기보다 크다면 제거한다.
+		if (uploadFlag=(uploadFile.length() > maxSize)) {
 			uploadFile.delete();
-		}//end if
+		}
 		
-		
-		if(uploadFlag || !mr.getContentType("upfile").contains("image/")){
-			out.println("업로드 파일의 크기는 10Mbyte까지만 가능합니다. 또는 이미지만 업로드 가능합니다.");
+		if (uploadFlag || !mr.getContentType("upfile").contains("image/")){
+			out.println("파일이 이미지가 아니거나 크기가 10Mbyte를 초과합니다.");			
 		}else{
-			//이미지가 업로드 되었을 때 알아볼 수 없는 이름으로 저장한다.
-			String fileName2=uploadFile.getName();
-			String ext=fileName2.substring(fileName.lastIndexOf("."));
+			//이미지가 업로드 되었을 때 알아볼 수 없는 이름으로 변경
+			String fileName2 = uploadFile.getName();
+			String ext = fileName2.substring(fileName2.lastIndexOf("."));
 			
-			File renameFile=new File(uploadFile.getParent() + File.separator + UUID.randomUUID().toString().replaceAll("-","") + ext);
-			
-			out.println(renameFile);
+			File renameFile = new File(uploadFile.getParent() + File.separator + UUID.randomUUID().toString().replaceAll("-", "") + ext);
 			uploadFile.renameTo(renameFile);
+			
 		%>
-		<hr>
-		MultipartRequest 사용<br>
-		업로더 : <%=mr.getParameter("uploader") %><br>
-		파일명 : <%=mr.getParameter("upfile") %><br>
-		원본파일명 : <%=mr.getOriginalFileName("upfile") %><br>
-		같은 이름이 있을 때 파일명 : <%=mr.getFilesystemName("upfile") %><br>
+		
+		<hr>MultipartRequest 사용<br>
+		mr 업로더: <%=mr.getParameter("uploader") %><br>
+		mr 파일명: <%=mr.getParameter("upfile") %><br>
+		원본파일명: <%=mr.getOriginalFileName("upfile") %><br>
+		같은 이름이 있을 때 파일명: <%=mr.getFilesystemName("upfile") %><br>
 		<%
-		}//end else
+		}// else
 		}catch(IOException ie){
 			ie.printStackTrace();
 		}
-			%>
+		%>
 		</div>
+		
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<c:import url="${CommonURL}/fragments/footer.jsp"/>
+			<c:import url="${ CommonUrl }/fragments/footer.jsp"/>			
 		</footer>
 	</main>
-	<script src="${CommonURL}/common/js/bootstrap.bundle.min.js"
+	<script src="${CommonUrl}/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

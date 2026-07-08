@@ -1,36 +1,34 @@
-<%@page import="kr.co.sist.user.member.MemberDTO"%>
+<%@page import="kr.co.sist.member.MemberDTO"%>
 <%@page import="kr.co.sist.user.login.LoginService"%>
 <%@page import="kr.co.sist.chipher.DataEncryption"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../include/siteProperty.jsp" %>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../include/siteProperty.jsp" %>
 
 <jsp:useBean id="lDTO" class="kr.co.sist.user.login.LoginDTO" scope="page"/>
 <jsp:setProperty name="lDTO" property="*"/>
 <%
-//비번은 일방향 해시
-lDTO.setPassword( DataEncryption.messageDigest("SHA-1", lDTO.getPassword()) );
+//비번은 일방향 hash
+lDTO.setPassword(DataEncryption.messageDigest("SHA-1", lDTO.getPassword()));
 
 //로그인 수행
-LoginService ls=new LoginService();
-MemberDTO mDTO=ls.searchLogin(lDTO);
-if( mDTO != null){
-	//세션에 정보를 추가
+LoginService ls = new LoginService();
+MemberDTO mDTO = ls.searchLogin(lDTO);
+if (mDTO != null){
+	//세션에 정보 추가
 	session.setAttribute("userInfo", mDTO);
-	System.out.println("----loginProcess.jsp---"+session.getAttribute("userInfo"));
-	//로그인 히스토리 남기고
-	//메인페이지로 이동.
-	String url=application.getAttribute("CommonURL")+"/index.jsp";
+	//로그인 히스토리 남기기
+	//메인페이지로 이동
+	String url = application.getAttribute("CommonUrl")+"/index.jsp";
 	%>
 	<script type="text/javascript">
-	location.replace("<%= url %>");
+	location.replace("<%=url%>");
 	</script>
+	
 	<%
-	//response.sendRedirect(application.getAttribute("CommonURL")+"/index.jsp");
-	//sendRedirect아랫줄에 실행될 코드가 없다면 return을 생략해도 괜찮다.
+	//response.sendRedirect(application.getAttribute("CommonUrl")+"/index.html");
 }else{
 	response.sendRedirect("loginForm.jsp?flag=N");
-	//sendRedirect아랫줄에 실행될 코드가 없다면 return을 생략해도 괜찮다.
-}//end if
+}
 %>

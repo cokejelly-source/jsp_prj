@@ -1,21 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
-
-
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<%-- <jsp:include page="../include/external_file.jsp"/> --%>
-<%@ include file="../fragments/external_file.jsp" %>
+<!-- 변수와 메소드 공유 불가능 -->
+<jsp:include page="../fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -98,8 +100,9 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
 </head>
 <body>
@@ -162,7 +165,7 @@
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<jsp:include page="../fragments/navigationBar.jsp"/>
+			<jsp:include page="../fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
@@ -175,42 +178,44 @@
 		<!-- Wrap the rest of the page in another container to center all the content. -->
 		<div class="container marketing">
 			<!-- Three columns of text below the carousel -->
-			<%-- <jsp:include page="../fragments/bestProduct.jsp"/> --%>
+				 <%-- <jsp:include page="../fragments/row.jsp"/> --%>
 			<!-- /.row -->
 			<!-- START THE FEATURETTES -->
-			<%-- <jsp:include page="../fragments/productList.jsp"/> --%>
+				<%-- <jsp:include page="../fragments/detail.jsp"/> --%>
 			<!-- /END THE FEATURETTES -->
 			<div>
-			<!-- 1.객체 생성 : 생성된 객체는 scope 객체에 할당이 된다. -->
+			<!-- 1.객체 생성 -->
 			<jsp:useBean id="cDTO" class="day0622.CounterDTO" scope="application"/>
-			<!-- 2.setter method 호출 -->
+			<!-- 2.setter -->
 			<jsp:setProperty property="cnt" name="cDTO" value="1"/>
-			<!-- 3.Getter method 호출 -->
-			당신은 이 페이지에 <strong><jsp:getProperty property="cnt" name="cDTO"/></strong>번째 방문자 입니다.
+			<!-- 3.getter -->
+			<%-- 당신은 이 페이지의 <strong><jsp:getProperty property="cnt" name="cDTO"/></strong>번째 접속자 입니다. --%>
+			<span>당신은 이 페이지의</span> 
 			<%
-			String cnt=String.valueOf(cDTO.getCnt());
-			for(int i=0;i<cnt.length();i++){
+			String cnt = String.valueOf( cDTO.getCnt());
+			for (int i = 0; i < cnt.length(); i ++){
 				%>
-				<img src="images/num_<%=cnt.charAt(i)%>.png">
+				<img src="http://localhost/jsp_prj/day0622/images/num_<%=cnt.charAt(i)%>.png">
 				<%
 			}
 			%>
+			번째 접속자 입니다.
 			
 			<%
 			System.out.println(request.getRemoteAddr());
-			
-			RequestDispatcher rd=request.getRequestDispatcher("move.jsp");
-			//rd.forward(request, response); 
+			//RequestDispatcher rd = request.getRequestDispatcher("move.jsp");
+			//rd.forward(request,response);
 			%>
 			</div>
 		</div>
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<%-- <jsp:include page="../fragments/footer.jsp"/> --%>
+			<jsp:include page="../fragments/footer.jsp"/>			
 		</footer>
 	</main>
-	<script src="http://localhost/jsp_prj/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

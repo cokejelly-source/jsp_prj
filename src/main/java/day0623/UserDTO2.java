@@ -1,7 +1,5 @@
 package day0623;
 
-import java.util.Calendar;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +15,5 @@ public class UserDTO2 {
 	private String myName;
 	private String email;
 	private int age;
-		
+	
 }

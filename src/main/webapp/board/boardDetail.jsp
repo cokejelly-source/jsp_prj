@@ -1,9 +1,10 @@
 <%@page import="kr.co.sist.board.BoardService"%>
+<%@page import="javax.print.attribute.standard.PrinterMakeAndModel"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../include/siteProperty.jsp" %>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ include file="../include/siteProperty.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
@@ -11,13 +12,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<c:import url="${CommonURL}/fragments/external_file.jsp"/>
-
+<!-- 변수와 메소드 공유 불가능 -->
+<c:import url="${CommonUrl}/fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -100,73 +106,83 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
-</style>
- <!-- include summernote css/js-->
- <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
- <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
 
+</style>
+
+
+<!-- include summernote css/js-->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+<style type="text/css">
+#wrap { width: 1000px; height: 900px; margin: 0 auto; }
+#header { height: 200px; }
+#container { height: 600px; }
+#footer { height: 100px; }
+
+</style>
 <script type="text/javascript">
-$( function(){
-	 $('#content').summernote({
-	        placeholder: '자유롭게 글을 입력해주세요.',
-	        tabsize: 2,
-	        height: 400,
-	        width:600,
-	        toolbar: [
-	            // [groupName, [list of button]]
-	            ['fontsize', ['fontsize']],
-	            ['color', ['color']],
-	            ['insert', ['picture' ]],
-	          ]
+$(function(){
+	$("#content").summernote({
+        placeholder: '내용작성',
+        tabsize: 2,
+        height: 400,
+        width: 600,
+        toolbar: [
+            // [groupName, [list of button]]
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['insert', ['picture']],
+            ['view', [ 'codeview']],
+          ]
       });
-	 
-	 $("#btnWrite").click(chkNull);
-	 $("#btnUpdate").click(function(){
-		 boardModify('u');
-	 });
-	 
-	 $("#btnDelete").click(function(){
-		 boardModify('d');
-	 });
-	 
+	
+	$("#btnWrite").click(chkNull);
+	
+	$("#btnUpdate").click(function(){
+		boardModify('u');
+	});
+	
+	$("#btnDelete").click(function(){
+		boardModify('d');
+	});
 });//ready
 
+function boardModify(jobFlag){
+	var action = "deleteBoard"
+	var msg = "삭제"
+	if (jobFlag == "u"){
+		action = "updateBoard";
+		msg = "변경";
+	}
+	
+	if (confirm("글을 " + msg + "하시겠습니까?")){
+		//폼 태그를 얻어서, action 속성을 변경, submit 실행
+		$("#readForm")[0].action = action+".jsp";
+		if(msg == "변경"){
+			if($("#title").val().trim()==""){
+				alert("제목은 필수 입력 입니다.");
+				return;
+			}
+		}
+		$("#readForm").submit();
+		
+	}
+}// boardModify
+
 function chkNull(){
-	//alert($('#content').val() =="<p></p>")
-	if($('#title').val().trim() == ""){
+	
+	if($("#title").val().trim() == ""){
 		alert("제목은 필수 입력입니다.");
 		return;
-	}//end if
+	}
 	$("#writeForm").submit();
-}//chkNull
-
-function boardModify( jobFlag ){
-	
-	var action="deleteBoard";
-	var msg="삭제";
-	if( jobFlag == 'u'){
-		action="updateBoard";		
-		msg="변경";
-	}//end if
-	
-	if(confirm("글을 "+ msg+" 하시겠습니까?")){
-	//폼태그를 얻어서, action속성을 변경하고, submit 실행
-		$("#readForm")[0].action=action+".jsp";
-		//유효성 검증
-		if(msg=="변경"){
-			if($("#title").val().trim() == ""){
-				alert("제목은 필수 입력입니다.");
-				return;
-			}//end if
-		}//end if
-		$("#readForm").submit();
-	}//end if
-	
-	
 }
 </script>
+
+
+
 
 </head>
 <body>
@@ -229,78 +245,80 @@ function boardModify( jobFlag ){
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-		<c:import url="/fragments/navigationBar.jsp"/>
+			<c:import url="/fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
-		<div id="divWriteForm" style="margin-top: 20px">
+		<div id="divWriteForm" style="margin-top: 20px; ">
 		<%
-		String paramNum=request.getParameter("num");
-		
-		int num=0;
-		if( paramNum != null){
+		String paramNum = request.getParameter("num");
+		int num = 0;
+		if (paramNum != null){
 			try{
-			num=Integer.parseInt(paramNum);
-			}catch(NumberFormatException nfe){
+				num = Integer.parseInt(paramNum);
+			} catch(NumberFormatException nfe){
 				response.sendRedirect("../error/err_500.jsp");
 				return;
-			}//end catch
-		}//end if
+			}
+		}// end if
 		
-		BoardService bs=new BoardService();
+		BoardService bs = new BoardService();
 		pageContext.setAttribute("bDTO", bs.searchBoardDetail(num));
-		//검색한 글의 카운트를 증가
+		
 		bs.modifyCount(num);
 		%>
 		<form method="post" name="readForm" id="readForm">
 		<input type="hidden" name="num" value="${ bDTO.num }"/>
 		<input type="hidden" name="currentPage" value="${ param.currentPage }"/>
 		<table>
-		<tr>
-		<th colspan="2" style="text-align: center"><h3>아무말 대잔치 글읽기</h3></th>
-		</tr>
-		<tr>
-		<td width="120px">제목</td>
-		<td><input type="text" name="title" id="title" style="width: 600px"
-				value="${ bDTO.title }"></td>
-		</tr>
-		<tr>
-		<td>내용</td>
-		<td><textarea name="content" id="content"><c:out value="${ bDTO.content }" escapeXml="true"/></textarea></td>
-		</tr>
-		<tr>
-		<td>작성자</td>
-		<td><c:out value="${ bDTO.id }"/></td>
-		</tr>
-		<tr>
-		<td>ip</td>
-		<td><c:out value="${ bDTO.ip }"/></td>
-		</tr>
-		<tr>
-		<td>작성일</td>
-		<td><fmt:formatDate value="${ bDTO.inputDate }" pattern="yyyy-MM-dd EEEE kk:mm:ss"/></td>
-		</tr>
-		<tr>
-		<td colspan="2" align="center">
-		<c:if test="${ userInfo.id == bDTO.id }">
-		<input type="button" value="글수정" class="btn btn-primary btn-sm" id="btnUpdate"/>
-		<input type="button" value="글삭제" class="btn btn-warning btn-sm" id="btnDelete"/>
-		</c:if>
-		 
-		<a href="javascript:location.href='boardList.jsp?currentPage=${ param.currentPage }'" class="btn btn-info btn-sm">리스트</a>
-		</td>
-		</tr>
+			<tr>
+				<th colspan="2" style="text-align: center; "><h3>글읽기</h3></th>
+			</tr>		
+			<tr>
+				<td width="120px">제목</td>
+				<td><input type="text" name="title" style="width: 600px" id="title" value="${ bDTO.title }"></td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td><textarea name="content" id="content"><c:out value="${ bDTO.content }" escapeXml="true"/></textarea></td>
+			</tr>
+			<tr>
+				<td>작성자</td>
+				<td><c:out value="${ bDTO.id }"/></td>
+			</tr>
+			<tr>
+				<td>IP</td>
+				<td><c:out value="${ bDTO.ip }"/></td>
+			</tr>
+			<tr>
+				<td>작성일</td>
+				<td><fmt:formatDate value="${ bDTO.inputDate }" pattern="yyyy-MM-dd EEEE kk:mm:ss"/></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+				<c:if test="${ userInfo.id == bDTO.id }">
+				<input type="button" value="글수정" class="btn btn-sm btn-outline-primary" id="btnUpdate"/>
+				<input type="button" value="글삭제" class="btn btn-sm btn-outline-warning" id="btnDelete"/>
+				</c:if>
+				
+				<c:set var="queryString" value="currentPage=${param.currentPage}"/>
+				<c:if test="${not empty param.keyword }">
+				<c:set var="queryString" value="${queryString}&fieldNum=${param.fieldNum}&keyword=${param.keyword}"/>
+				
+				</c:if>
+				<a href="javascript:location.href='boardList.jsp?${queryString}'" class="btn btn-sm btn-outline-info">리스트</a>
+				</td>
+			</tr>
 		</table>
-		</form>
-		 
+		</form>	
 		</div>
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<c:import url="${CommonURL}/fragments/footer.jsp"/>
+			<c:import url="${ CommonUrl }/fragments/footer.jsp"/>			
 		</footer>
 	</main>
-	<script src="${CommonURL}/common/js/bootstrap.bundle.min.js"
+	<script src="${CommonUrl}/common/JS/bootstrap.bundle.min.js"
 		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>

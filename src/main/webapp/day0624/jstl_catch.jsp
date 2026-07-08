@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isErrorPage="true"%>
-<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- <%@ page errorPage="../error/err_500.jsp" %> --%>
+	pageEncoding="UTF-8"%>
+<%-- <%@ errorPage="../error/err_500.jsp"%> --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
@@ -9,13 +9,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<%-- <jsp:include page="../include/external_file.jsp"/> --%>
-<c:import url="http://localhost/jsp_prj/fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 불가능 -->
+<c:import url="http://192.168.10.70/jsp_prj/fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -98,8 +103,9 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
 </head>
 <body>
@@ -162,37 +168,35 @@
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<c:import url="http://localhost/jsp_prj/fragments/navigationBar.jsp"/>
+			<c:import url="http://192.168.10.70/jsp_prj/fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
 		<div id="myCarousel" class="carousel slide mb-6"
 			data-bs-ride="carousel">
-			<c:import url="http://localhost/jsp_prj/fragments/carousel.jsp"/>
+			<%-- <c:import url="http://192.168.10.70/jsp_prj/fragments/carousel.jsp"/> --%>
 		</div>
 		<!-- Marketing messaging and featurettes
   ================================================== -->
 		<!-- Wrap the rest of the page in another container to center all the content. -->
 		<div class="container marketing">
-		<c:catch var="cnfe">
-			<%
-			//_jspService method안에 try_catch(Throwable t)에 감싸져 있기 때문에 error가 발생하지 않음
-			Class.forName("oracle.jdbc.OracleDrivr");
-			%>
-			
-			</c:catch>
-			객체 : ${cnfe }
-			<c:if test="${cnfe != null }">
-			죄송합니다. 잠시 후 다시 시도해주세요
-			</c:if>
+		<c:catch var="e">
+		<%
+		//_jspService method 안의 try~catch(Throwable t)로 감싸져 있어서 error가 발생하지 않는다		
+		Class.forName("oracle.jdbc.OracleDriver2");		
+		%>
+		</c:catch>
+		객체: ${ e }<br>
+		<c:if test="${ not empty e }">error</c:if>
 		</div>
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<c:import url="http://localhost/jsp_prj/fragments/footer.jsp"/>
+			<c:import url="http://192.168.10.70/jsp_prj/fragments/footer.jsp"/>			
 		</footer>
 	</main>
-	<script src="http://localhost/jsp_prj/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

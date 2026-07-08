@@ -1,19 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
-<script src="http://localhost/jsp_prj/common/js/color-modes.js"></script>
-<link href="http://localhost/jsp_prj/common/js/bootstrap.min.css" rel="stylesheet">
-
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
+<script src="http://localhost/jsp_prj/common/JS/color-modes.js"></script>
+<link href="http://localhost/jsp_prj/common/JS/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB">
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <meta name="theme-color" content="#712cf9">
-<link href="http://localhost/jsp_prj/common/js/carousel.css" rel="stylesheet">
+<link href="http://localhost/jsp_prj/common/JS/carousel.css" rel="stylesheet">
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -96,25 +101,20 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
 
+</style>
 <script type="text/javascript">
-$( function(){
-	//$("#frm").on("submit",function(e){
-	//	e.preventDefault();
-	//});
+$(function(){
 	$("#btn").click(function(){
-		//유효성 검증
-		//document.frm.submit();
-		$("#frm")[0].submit()
+		//유효성 검증 이후
+		document.frm.submit();
+		//$("#frm")[0].submit();
 	});
 });//ready
+
 </script>
-
-
 </head>
 <body>
 	<svg xmlns="http://www.w3.org/2000/svg" class="d-none"> <symbol
@@ -177,7 +177,7 @@ $( function(){
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 			<div class="container-fluid">
-				<!-- <a class="navbar-brand" href="#">Carousel</a> -->
+				<a class="navbar-brand" href="#">Carousel</a>
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
 					aria-controls="navbarCollapse" aria-expanded="false"
@@ -187,7 +187,7 @@ $( function(){
 				<div class="collapse navbar-collapse" id="navbarCollapse">
 					<ul class="navbar-nav me-auto mb-2 mb-md-0">
 						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="#">메인</a></li>
+							aria-current="page" href="#">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="javascript:history.back()" >이전으로</a></li>
 						<li class="nav-item"><a class="nav-link disabled"
 							aria-disabled="true">Disabled</a></li>
@@ -274,61 +274,61 @@ $( function(){
 				<span class="visually-hidden">Next</span>
 			</button>
 		</div>
+		<!-- Marketing messaging and featurettes
+  ================================================== -->
+		<!-- Wrap the rest of the page in another container to center all the content. -->
+			<!-- /.row -->
 			<!-- START THE FEATURETTES -->
 			<hr class="featurette-divider">
 			<div class="row featurette">
 				<div class="col-md-7">
 				<div style="padding-left: 20px">
-					<form action="getParameterFormProcess.jsp" name="frm" method="get" id="frm" onsubmit="return false">
-					<table>
-					<tr>
-					<th colspan="2"><h3>name속성의 값이 유일한 HTML Form Control</h3></th>
-					</tr>
-					<tr>
-					<td>text</td>
-					<td><input type="text" name="text" value="테스트"></td>
-					</tr>
-					<tr>
-					<td>password</td>
-					<td><input type="password" name="pass" value="비밀번호"></td>
-					</tr>
-					<tr>
-					<td>radio</td>
-					<td><input type="radio" name="gender" value="M" checked="checked">남자
-						<input type="radio" name="gender" value="F">여자
-					</td>
-					</tr>
-					<tr>
-					<td>check</td>
-					<td><input type="checkbox" name="agree" value="Y" checked="checked">동의
-					</td>
-					</tr>
-					<tr>
-					<td>select</td>
-					<td>
-						<select name="tel">
-						<option value="010">010</option>
-						<option value="011">011</option>
-						<option value="016">016</option>
-						<option value="017">017</option>
-						<option value="018">018</option>
-						<option value="019">019</option>
-						</select>
-					</td>
-					</tr>
-					<tr>
-					<td>textarea</td>
-					<td>
-						<textarea name="ta" cols="50" rows="5" >텍스트에어리어</textarea>
-					</td>
-					</tr>
-					<tr>
-					<td colspan="2">
-						<button class="btn btn-primary btn-sm" id="btn">입력</button>
-						<!-- <input type="button" value="클릭" id="btn"/>		 -->			
-					</td>
-					</tr>
-					</table>
+					<form action="getParameterFormProcess.jsp" name="frm" method="GET" id="frm" onsubmit="return false">
+						<table>
+							<tr>
+								<th colspan="2"><h3>name속성의 값이 유일한 HTML Form Control</h3></th>
+							</tr>
+							<tr>
+								<td>text</td>
+								<td><input type="text" name="text" value="테스트"></td>
+							</tr>
+							<tr>
+								<td>password</td>
+								<td><input type="password" name="pass"  value="비밀번호"></td>
+							</tr>
+							<tr>
+								<td>radio</td>
+								<td><input type="radio" name="gender" value="M" checked>남자
+									<input type="radio" name="gender" value="F">여자</td>
+							</tr>
+							<tr>
+								<td>checkbox</td>
+								<td><input type="checkbox" name="agree" value="Y" checked>동의</td>
+							</tr>
+							<tr>
+								<td>select</td>
+								<td>
+									<select name = "tel">
+										<option value="010">010</option>
+										<option value="011">011</option>
+										<option value="016">016</option>
+										<option value="017">017</option>
+										<option value="018">018</option>
+										<option value="019">019</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>textarea</td>
+								<td><textarea name="ta" rows="5" cols="50" >ta</textarea></td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<button class="btn btn-sm btn-primary" id="btn">입력</button>
+									<!-- <input type="button" class="btn btn-sm btn-primary" id="btn" value="입력2"> -->
+								</td>
+							</tr>
+						</table>
 					</form>
 				</div>
 				</div>
@@ -398,7 +398,8 @@ $( function(){
 			</p>
 		</footer>
 	</main>
-	<script src="http://localhost/jsp_prj/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

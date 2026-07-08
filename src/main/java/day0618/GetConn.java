@@ -10,20 +10,18 @@ import javax.sql.DataSource;
 
 public class GetConn {
 	public Connection getCon() throws SQLException {
-		Connection con=null;
-		//1. JNDI사용객체를 생성한다.
-		Context ctx;
+		Connection con = null;
 		try {
-			ctx = new InitialContext();
-			//2.Tomcat에 DBCP에서 DataSource를 얻는다
-			DataSource ds=(DataSource)ctx.lookup("java:comp/env/jdbc/dbcp");
-			//3.DataSource에서 Connection 얻기
-			con=ds.getConnection();
-			
+			// 1.JNDI 사용객체를 생성한다.
+			Context ctx = new InitialContext();
+			// 2.Tomcat에 있는 DBCP에서 DataSource를 얻는다
+			DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/dbcp");
+			// 3.DataSource에서 Connection을 얻는다
+			con = ds.getConnection();
 		} catch (NamingException e) {
 			e.printStackTrace();
-		}//end catch
+		}
 		
 		return con;
-	}//end getCon
+	}
 }

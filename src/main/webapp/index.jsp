@@ -1,7 +1,8 @@
+<%@page import="kr.co.sist.member.MemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="../include/siteProperty.jsp" %>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../include/siteProperty.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
@@ -9,13 +10,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
+<!-- 변수와 메소드 공유 불가능 -->
+<c:import url="${CommonUrl}/fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 
-<%-- <jsp:include page="../include/external_file.jsp"/> --%>
-<c:import url="${CommonURL}/fragments/external_file.jsp"/>
+<script type="text/javascript">
+//var obj = new XMLHttpRequest();
+//alert(obj);
+</script>
+
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -98,8 +110,9 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
 </head>
 <body>
@@ -162,35 +175,34 @@
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<jsp:include page="/fragments/navigationBar.jsp"/>
+			<c:import url="/fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
 		<div id="myCarousel" class="carousel slide mb-6"
 			data-bs-ride="carousel">
-			<c:import url="${CommonURL}/fragments/carousel.jsp"/>
+			<c:import url="${CommonUrl}/fragments/carousel.jsp"/>
 		</div>
 		<div>
-		<a href="${CommonURL}/board/boardList.jsp">게시판</a>
+			<a href="${ CommonUrl }/board/boardList.jsp">게시판</a>
 		</div>
 		<!-- Marketing messaging and featurettes
   ================================================== -->
 		<!-- Wrap the rest of the page in another container to center all the content. -->
 		<div class="container marketing">
-			<!-- Three columns of text below the carousel -->
-			<c:import url="${CommonURL}/fragments/bestProduct.jsp"/>
-			<!-- /.row -->
-			<!-- START THE FEATURETTES -->
-			<c:import url="${CommonURL}/fragments/productList.jsp"/>
-			<!-- /END THE FEATURETTES -->
+			
+			<c:import url="${ CommonUrl }/fragments/row.jsp"/>	
+			<hr>
+					
+			<c:import url="${ CommonUrl }/fragments/detail.jsp"/>			
 		</div>
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<c:import url="${CommonURL}/fragments/footer.jsp"/>
 		</footer>
 	</main>
-	<script src="${CommonURL}/common/js/bootstrap.bundle.min.js"
+	<script src="${CommonUrl}/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+	pageEncoding="UTF-8"%>
 <script src="//t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -32,8 +31,6 @@
                 document.getElementById('zipcode').value = data.zonecode;
                 document.getElementById("address").value = roadAddr;
                 document.getElementById("address2").focus();
-                /* document.getElementById("aadress2").value = data.jibunAddress; */
-                
             }
         }).open();
     }

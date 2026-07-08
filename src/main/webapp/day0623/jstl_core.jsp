@@ -1,19 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<%-- <jsp:include page="../include/external_file.jsp"/> --%>
-<%@ include file="../fragments/external_file.jsp" %>
+<!-- 변수와 메소드 공유 불가능 -->
+<jsp:include page="../fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -96,8 +102,9 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
 </head>
 <body>
@@ -160,7 +167,7 @@
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<jsp:include page="../fragments/navigationBar.jsp"/>
+			<jsp:include page="../fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
@@ -172,29 +179,30 @@
   ================================================== -->
 		<!-- Wrap the rest of the page in another container to center all the content. -->
 		<div class="container marketing">
-			<c:set var="name" value="<strong>테스트</strong>"/>
-			<c:set var="age" value="20"/>
-			<!-- 변수의 출력 -->
-			이름	: ${name }
-			나이	: ${age }
+			<!-- 변수 선언 -->
+			<c:set var="name" value="<strong>테스트</strong>" />
+			<c:set var="age" value="20" />
+			<!-- 변수 출력 -->
+			이름: ${ name }<br> <!-- EL은 HTML을 해석  -->
+			나이: ${ age }<br>
 			<hr>
-			이름	: <c:out value="${name }" escapeXml="false"/> <!-- c:out은 HTML을 해석하지 않는다. -->
-			나이	: <c:out value="${age }"/>
+			이름: <c:out value="${ name }" escapeXml="false"/><br> <!-- EL은 HTML을 해석하지 않음 -->
+			나이: <c:out value="${ age }"/><br>
 			<hr>
-			<!-- 변수의 삭제 -->
+			<!-- 변수 삭제 -->
 			<c:remove var="name"/>
 			<c:remove var="age"/>
-			이름	: <c:out value="${name }" escapeXml="false"/> <!-- c:out은 HTML을 해석하지 않는다. -->
-			나이	: <c:out value="${age }"/>
-			
+			이름: <c:out value="${ name }"/><br>
+			나이: <c:out value="${ age }"/><br>
 		</div>
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<jsp:include page="../fragments/footer.jsp"/>
+			<jsp:include page="../fragments/footer.jsp"/>			
 		</footer>
 	</main>
-	<script src="http://localhost/jsp_prj/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

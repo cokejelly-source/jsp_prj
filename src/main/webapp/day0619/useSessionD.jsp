@@ -1,30 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" session="true"%>
-
+	pageEncoding="UTF-8"%>
 <%
-//세션의 값을 삭제하고
+String name = (String)session.getAttribute("name");
+
+if (name == null){
+	response.sendRedirect("useSessionA.jsp");
+	return;
+}
+
+//세션의 값을 삭제(세션은 존재하고 값만 삭제)
 session.removeAttribute("name");
-log("삭제 된 후 " + session.getAttribute("name"));
+log("삭제된 후 " + session.getAttribute("name"));
 
-//브라우저에 할당된 키를 무효화
+//브라우저에 할당된 세션 무효화(세션 자체를 삭제)
 session.invalidate();
-//무효화 후에는 브라우저에 할당된 세션이 존재하지 않기 떄문에 값을 얻는 행동을 하면 에러남
-//log("무효화 후 " + session.getAttribute("name"));
 
-//메인화면으로 이동
-response.sendRedirect("http://localhost/jsp_prj/day0619/useSessionA.jsp");
-
+//메인화면으로이동
+response.sendRedirect("useSessionA.jsp");
 %>
-<!-- 메인화면으로 이동 -->
 <!-- <script type="text/javascript">
 location.href="http://localhost/jsp_prj/day0619/useSessionA.jsp";
-</script> -->
-
-<!-- 메인화면으로 이동 -->
+</script>> -->
 <!-- <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="refresh" content="0;http://localhost/jsp_prj/day0619/useSessionA.jsp">
+<meta http-equiv="refresh" content="0; http://localhost/jsp_prj/day0619/useSessionA.jsp">
 </head>
 <body>
 </body>

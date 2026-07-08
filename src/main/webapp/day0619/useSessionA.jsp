@@ -1,21 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" session="true"%>
-
-
-
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
-<script src="http://localhost/jsp_prj/common/js/color-modes.js"></script>
-<link href="http://localhost/jsp_prj/common/js/bootstrap.min.css" rel="stylesheet">
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
+<script src="http://localhost/jsp_prj/common/JS/color-modes.js"></script>
+<link href="http://localhost/jsp_prj/common/JS/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB">
 
 <meta name="theme-color" content="#712cf9">
-<link href="http://localhost/jsp_prj/common/js/carousel.css" rel="stylesheet">
+<link href="http://localhost/jsp_prj/common/JS/carousel.css" rel="stylesheet">
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -98,50 +100,33 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
+<!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript">
-$(function(){
-	$(function(){
-
-	    $("#name").keyup(function(evt){
-	        if(evt.which == 13){
-	            chkNull();
-	        }
-	    });
-
-	    $("#btn").click(function(){
-	        chkNull();
-	    });
-
-	    function chkNull(){
-	        var name = $("#name").val();
-
-	        if(name == ""){
-	            alert("이름은 필수 입력입니다.");
-	            $("#name").focus();
-	            return;
-	        }
-
-	        $("#frm").submit();
-	    }
-
+$(function() {
+	$("#btn").click(function(){
+		chkNull();
 	});
 	
-	
-	
-	/* $("#btn").click(function(){
-		val name=$("#name").val();
-		if(name==""){
-			alert("이름은 필수 입력입니다.");
-			return;
-		}//end if
-		$("#frm").submit();
-	});//click */
-})//ready
+	$("#name").keyup(function(evt){
+		if ( evt.which == 13 ) {
+			chkNull();
+		}
+	});
+});//ready
 
+function chkNull() {
+		var name = $("#name").val();
+		if (name == ""){
+			alert("이름은 필수입니다");
+			return;
+		}
+		$("#frm").submit();		
+}
 </script>
 
 </head>
@@ -206,7 +191,7 @@ $(function(){
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 			<div class="container-fluid">
-				<!-- <a class="navbar-brand" href="#">Carousel</a> -->
+				<a class="navbar-brand" href="#">Carousel</a>
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
 					aria-controls="navbarCollapse" aria-expanded="false"
@@ -216,7 +201,7 @@ $(function(){
 				<div class="collapse navbar-collapse" id="navbarCollapse">
 					<ul class="navbar-nav me-auto mb-2 mb-md-0">
 						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="#">메인</a></li>
+							aria-current="page" href="#">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="javascript:history.back()" >이전으로</a></li>
 						<li class="nav-item"><a class="nav-link disabled"
 							aria-disabled="true">Disabled</a></li>
@@ -360,15 +345,16 @@ $(function(){
 			<hr class="featurette-divider">
 			<div class="row featurette">
 				<div class="col-md-7">
-					<h3>session의 사용</h3>
-					<form action="useSessionB.jsp" method="GET" id="frm">
-					<label>이름</label>
-					<input type="text" name="name" id="name"/>
-					<input type="text" style="display: none" />
-					<br>
-					<button class="btn btn-success btn-sm" value="입력" id="btn">입력
-					</button>
-					</form>
+				<%=session %>
+				<h3>session의 사용</h3>
+				<form action="useSessionB.jsp" method="get" id="frm">
+				<label>이름</label>
+				<input type="text" name="name" id="name" value="123">
+				<input type="text" style="display: none;">
+				<br>
+				<input type="button" value="입력" class="btn btn-sm btn-success" id="btn">
+				<!-- <button class="btn btn-sm btn-success">입력</button> -->
+				</form>	
 				</div>
 				<div class="col-md-5">
 					<svg aria-label="Placeholder: 500x500"
@@ -432,12 +418,12 @@ $(function(){
 				<a href="#">Back to top</a>
 			</p>
 			<p>
-				&copy; 2017–2025 Company, Inc. &middot; <a href="#">Privacy</a>
-				&middot; <a href="#">Terms</a>
+				&copy; class 2.
 			</p>
 		</footer>
 	</main>
-	<script src="http://localhost/jsp_prj/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

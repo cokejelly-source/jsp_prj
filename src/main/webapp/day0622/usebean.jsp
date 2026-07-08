@@ -1,22 +1,24 @@
-<%@page import="day0622.UserDTO"%>
+<%@page import="day0622.TestDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
-
-
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<%-- <jsp:include page="../include/external_file.jsp"/> --%>
-<%@ include file="../fragments/external_file.jsp" %>
+<!-- 변수와 메소드 공유 불가능 -->
+<jsp:include page="../fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -99,8 +101,9 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
 </head>
 <body>
@@ -163,7 +166,7 @@
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<jsp:include page="../fragments/navigationBar.jsp"/>
+			<jsp:include page="../fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
@@ -176,53 +179,55 @@
 		<!-- Wrap the rest of the page in another container to center all the content. -->
 		<div class="container marketing">
 			<!-- Three columns of text below the carousel -->
-			<%-- <jsp:include page="../fragments/bestProduct.jsp"/> --%>
+				<%-- <jsp:include page="../fragments/row.jsp"/> --%>
 			<!-- /.row -->
 			<!-- START THE FEATURETTES -->
-			<%-- <jsp:include page="../fragments/productList.jsp"/> --%> 
+				<%-- <jsp:include page="../fragments/detail.jsp"/> --%>
 			<%
-			//TestDTO를 생성하여 이름에 "홍길동"을 이메일"hong@test.com" 
-			//나이에 20살을 저장하고 싶다.
-			//1.생성
-			UserDTO uDTO=new UserDTO();
-			//2.값 할당
-			uDTO.setName("홍길동");
-			uDTO.setEmail("hong@test.com");
-			uDTO.setAge(20);
-			session.setAttribute("userData", uDTO);
-			//3.출력
+			//TestDTO를 생성하여 이름에 "홍길동"을 나이에 20살을 저장
+			TestDTO tDTO = new TestDTO();
+			tDTO.setName("홍길동");
+			tDTO.setAge(20);
+			tDTO.setEmail("hong@test.com");
+			String name = tDTO.getName();
+			int age = tDTO.getAge();
+			String email = tDTO.getEmail();
 			%>
 			<div>
-			이름 : <span><%=uDTO.getName() %></span><br>
-			이메일 : <span><%=uDTO.getEmail() %></span><br>
-			나이 : <span><%=uDTO.getAge() %></span><br>
+			이름: <%=name%><br>
+			나이: <%=age%><br>
+			이메일: <%=email%><br>
+			<br>
 			</div>
 			<div>
-			<!-- 1.객체 생성 : 기본 생성자를 사용한 객체화 -->
-			<jsp:useBean id="ud" class="day0622.UserDTO" scope="page"/>
+			<!-- 1.객체 생성: 기본 생성자를 사용한 객체화 -->
+			<jsp:useBean id="tD" class="day0622.TestDTO" scope="page"></jsp:useBean>
 			<!-- 2.setter method 호출 -->
-			<jsp:setProperty property="name" name="ud" value="윤인성"/>
-			<jsp:setProperty property="email" name="ud" value="youun@test.com"/>
-			<jsp:setProperty property="age" name="ud" value="24"/>
-			<!-- 3.getter method 호출 : 웹 브라우저의 출력까지 함께 수행 -->
-						
-			이름 : <span><jsp:getProperty property="name" name="ud"/></span><br>
-			이메일 : <span><jsp:getProperty property="email" name="ud"/></span><br>
-			나이 : <span><jsp:getProperty property="age" name="ud"/></span><br>
-			
-			id가 객체명이므로 scriptlet이나 expression에서 해당 객체를 사용할 수 있다.
-			<% String name=ud.getName();%>
-			<%= name %>, <%=ud.getEmail() %>
+			<jsp:setProperty property="name" value="길동" name="tD"/>
+			<jsp:setProperty property="email" value="gil@test.com" name="tD"/>
+			<jsp:setProperty property="age" value="22" name="tD"/>
+			<!-- 3.getter method 호출: 웹 브라우저의 출력까지 함께 수행 -->
+			이름: <span><jsp:getProperty property="name" name = "tD"/></span><br>
+			나이: <span><jsp:getProperty property="age" name = "tD"/></span><br>
+			이메일: <span><jsp:getProperty property="email" name = "tD"/></span><br>
+			<br>
+			id가 객체명 이므로 scriptlet이나 expression에서 해당 객체를 사용할 수 있다<br>
+			<%
+			String tName = tD.getName();
+			%>
+			<%=tName %><br>
+			<%=tD.getAge() %>
 			</div>
-			<!-- /END THE FEATURETTES -->
+			<!-- /END THE FEATURETTES -->  
 		</div>
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<jsp:include page="../fragments/footer.jsp"/>
+			<jsp:include page="../fragments/footer.jsp"/>			
 		</footer>
 	</main>
-	<script src="http://localhost/jsp_prj/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

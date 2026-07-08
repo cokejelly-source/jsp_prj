@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="../include/siteProperty.jsp" %>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../include/siteProperty.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
@@ -9,30 +9,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<%-- <jsp:include page="../include/external_file.jsp"/> --%>
-<c:import url="${CommonURL}/fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 불가능 -->
+<c:import url="${CommonUrl}/fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <script type="text/javascript">
-$(function() {
-	$("#duplicateButton").click(function() {
-		var id=$("#id").val();
-		if(id==""){
+$(function(){
+	$("#duplicateButton").click(function(){
+		var id = $("#id").val();
+		if (id == "") {
 			alert("아이디는 필수 입력입니다.");
 			return;
 		}
-		var openPage="idDup.jsp?id=" + id;
-		window.open(openPage,"idDupWin","width=487, height=470, top=" + (screenY + 300) + ", left=" + (screenX + 400));
-	});//click
+		var openPage = "idDup.jsp?id="+id;
+		window.open(openPage,"idDupWin", "width=487, height=470 ,top="+(window.screenY+300) + ", left=" + (window.screenX+400));
+		
+	});
 	
-	$("#postcodeButton").click(function() {
+	$("#postcodeButton").click(function(){
 		findZipcode();
-	})
-})//ready
+	});
+});// ready
 </script>
+<c:import url="${ CommonUrl }/fragments/findZipcode.jsp"/>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -115,12 +122,10 @@ $(function() {
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
-
-<c:import url="${CommonURL }/fragments/findZipcode.jsp"/>
-
 </head>
 <body>
 	<svg xmlns="http://www.w3.org/2000/svg" class="d-none"> <symbol
@@ -182,15 +187,16 @@ $(function() {
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<jsp:include page="/fragments/navigationBar.jsp"/>
+			<c:import url="${ CommonUrl }/fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
+		
 		<!-- Marketing messaging and featurettes
   ================================================== -->
 		<!-- Wrap the rest of the page in another container to center all the content. -->
-		<div class="container marketing" style="margin-top: 100px;">
-			<main class="member-page">
+		<div class="container marketing">
+		<main class="member-page" style="margin-top: 30px;">
     <section class="member-shell">
         <h1 class="member-title">회원가입</h1>
         <div class="member-steps" aria-label="회원가입 단계">
@@ -200,7 +206,7 @@ $(function() {
         </div>
 
         <form id="joinForm" name="joinForm" method="post"
-              action="${CommonURL }/memberJoin/joinComplete.jsp" novalidate>
+              action="${ CommonUrl }/memberjoin/joinComplete1.jsp" novalidate>
             <input type="hidden" name="smsReceiveYN" value="1">
             <input type="hidden" name="emailReceiveYN" value="0">
             <input type="hidden" id="codeChecked" value="N">
@@ -211,8 +217,8 @@ $(function() {
                         <th><label for="id">아이디 <span class="member-required">*</span></label></th>
                         <td>
                             <div class="member-inline">
-                                <input class="member-input" type="text" id="id" name="id" 
-                                       maxlength="20" autocomplete="username" placeholder="영문 또는 숫자 4~20자" value="test">
+                                <input class="member-input" type="text" id="id" name="id"
+                                       maxlength="20" autocomplete="username" placeholder="영문 또는 숫자 4~20자" value="1">
                                 <button class="member-button member-button-light member-button-small"
                                         type="button" id="duplicateButton">중복확인</button>
                             </div>
@@ -221,30 +227,30 @@ $(function() {
                     <tr>
                         <th><label for="password">비밀번호 <span class="member-required">*</span></label></th>
                         <td>
-                            <input class="member-input" type="password" id="password" name="password" 
-                                   maxlength="20" autocomplete="new-password" value="1234">
+                            <input class="member-input" type="password" id="password" name="password"
+                                   maxlength="20" autocomplete="new-password" value="2">
                             <p class="member-help">영문, 숫자, 특수문자를 포함한 8~20자</p>
                         </td>
                     </tr>
                     <tr>
                         <th><label for="passwordConfirm">비밀번호 확인 <span class="member-required">*</span></label></th>
                         <td><input class="member-input" type="password" id="passwordConfirm" name="passwordConfirm"
-                                   maxlength="20" autocomplete="new-password" value="1234"></td>
+                                   maxlength="20" autocomplete="new-password" value="3"></td>
                     </tr>
                     <tr>
                         <th><label for="name">이름 <span class="member-required">*</span></label></th>
                         <td><input class="member-input" type="text" id="name" name="name"
-                                   maxlength="30" autocomplete="name" value="테스트"></td>
+                                   maxlength="30" autocomplete="name" value="4"></td>
                     </tr>
                     <tr>
                         <th><label for="email">이메일 <span class="member-required">*</span></label></th>
-                        <td><input class="member-input" type="email" id="email" name="email" value="test@test.com"
-                                   maxlength="100" autocomplete="email" placeholder="example@ballpick.com"></td>
+                        <td><input class="member-input" type="email" id="email" name="email"
+                                   maxlength="100" autocomplete="email" placeholder="example@ballpick.com" value="5"></td>
                     </tr>
                     <tr>
                         <th><label>취미<span class="member-required">*</span></label></th>
                         <td><input type="checkbox"  name="hobby" value="낚시">낚시
-                        <input type="checkbox"  name="hobby" value="등산" checked="checked">등산
+                        <input type="checkbox"  name="hobby" value="등산" checked>등산
                         <input type="checkbox"  name="hobby" value="음악감상">음악감상
                         <input type="checkbox"  name="hobby" value="운동">운동</td>
                     </tr>
@@ -260,9 +266,9 @@ $(function() {
                                     <option value="019">019</option>
                                 </select>
                                 <input class="member-input" type="text" id="phone2" name="phone2"
-                                       maxlength="4" inputmode="numeric" aria-label="휴대폰 중간자리" value="1234">
+                                       maxlength="4" inputmode="numeric" aria-label="휴대폰 중간자리" value="6">
                                 <input class="member-input" type="text" id="phone3" name="phone3"
-                                       maxlength="4" inputmode="numeric" aria-label="휴대폰 끝자리" value="5678">
+                                       maxlength="4" inputmode="numeric" aria-label="휴대폰 끝자리" value="7">
                             </div>
                         </td>
                     </tr>
@@ -272,14 +278,14 @@ $(function() {
                             <div class="member-address">
                                 <div class="member-address-top">
                                     <input class="member-input" type="text" id="zipcode" name="zipcode"
-                                           placeholder="우편번호" value="1234">
+                                           placeholder="우편번호" value="8">
                                     <button class="member-button member-button-light member-button-small"
                                             type="button" id="postcodeButton">주소검색</button>
                                 </div>
                                 <input class="member-input" type="text" id="address" name="address"
-                                       placeholder="기본주소" value="서울시 강남구 대치동">
+                                        placeholder="기본주소" value="9">
                                 <input class="member-input" type="text" id="address2" name="address2"
-                                       maxlength="100" placeholder="상세주소" value="1234번지">
+                                       maxlength="100" placeholder="상세주소" value="10">
                             </div>
                         </td>
                     </tr>
@@ -289,9 +295,9 @@ $(function() {
             <div id="clientError" class="member-error" hidden></div>
             <div class="member-actions">
                 <a class="member-button member-button-light"
-                   href="${CommonURL }/member/join-agree.do">이전</a>
-                 <button class="member-button" type="submit">가입하기</button>
-            </div>
+                   href="${ CommonUrl }/member/join-agree.do">이전</a>
+                <!-- <button class="member-button" type="submit">가입하기</button> -->
+                <input type="submit" value="가입"/>            </div>
         </form>
     </section>
 </main>
@@ -299,10 +305,10 @@ $(function() {
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<c:import url="${CommonURL}/fragments/footer.jsp"/>
 		</footer>
 	</main>
-	<script src="${CommonURL}/common/js/bootstrap.bundle.min.js"
+	<script src="${CommonUrl}/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

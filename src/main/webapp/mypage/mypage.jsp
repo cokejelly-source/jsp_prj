@@ -1,21 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../include/siteProperty.jsp" %>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../include/loginChk2.jsp"  %> 
+<%@ include file="../include/siteProperty.jsp" %>
+<%@ include file="../include/loginCheck.jsp" %>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>마이페이지</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<c:import url="${CommonURL}/fragments/external_file.jsp"/>
-
+<!-- 변수와 메소드 공유 불가능 -->
+<c:import url="${CommonUrl}/fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -98,34 +103,32 @@
 	display: block !important
 }
 
-#프로필 디자인
-#profileWrap{ width: 100%; min-height: 600px; margin-top: 20px;background-color: #FF0000 }
-
+/* 프로필디자인 */
+#profileWrap { width: 100%; min-height: 600px; margin-top: 20px; }
+#profileImg { width: 30%; vertical-align: top; float: left; text-align: right; padding-right: 20px; }
+#userInfo { width: 70%; vertical-align: top; float: right; padding-left: 20px; border-left: 1px solid #333; }
 
 </style>
 
 <script type="text/javascript">
-$(function(){
-	//이미지 선택 버튼이 클릭
-	$("#btnPorfile").click(function(){
-		//버튼을 클릭했을 때 input type="file"을 클릭한 이벤트를 발생
+$(function() {
+	$("#btnProfile").click(function() {
+		//버튼을 클릭했을 때 input type="file"을 클릭한 이벤트 발생
 		$("#profile").click();
-	});//click
+	});// click
 	
 	$("#btnSearch").click(function(){
-		
 		var param={id:"${userInfo.id}"}
 		$.ajax({
-			url:"searchMyPage.jsp",
-			type:"post",
+			url: "searchMyPage.jsp",
+			type: "post",
 			data: param,
-			dataType:"JSON",
+			dataType: "json",
 			error:function(xhr){
-				console.log(xhr.status+" / " + xhr.statusText)				
+				console.log(xhr.status + " / " + xhr.statusText);
 			},
-			success:function(jsonObj){
-				alert(jsonObj)
-				$("#profile")[0].src="${commonURL}${uploadDir}/profile/"+jsonObj.profile;
+			success: function(jsonObj){
+				$("#profile")[0].src="${ CommonUrl }${ UploadDir }/profile/" + jsonObj.profile;
 				$("#name").val(jsonObj.name);
 				$("#email").val(jsonObj.email);
 				$("#phone").val(jsonObj.phone);
@@ -133,13 +136,11 @@ $(function(){
 				$("#address").val(jsonObj.address);
 				$("#address2").val(jsonObj.address2);
 				$("#ip").html(jsonObj.ip);
-				$("#input_date").html(jsonObj.input_date);
+				$("#input_date").html(jsonObj.inputdate);
 			}
-			
-			
 		});
-	});//click
-});//ready
+	});// click
+});// ready
 </script>
 </head>
 <body>
@@ -202,88 +203,74 @@ $(function(){
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-		<c:import url="/fragments/navigationBar.jsp"/>
+			<c:import url="/fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
-		
-		<!-- /.container -->
-		<div id="profileWrap" style="margin-top: 50px; ">
-		<form action="mypageProcess.jsp" method="post" id="mypageForm" name="mypageForm">
-		<table style="margin: 0px auto">
-		<tr>
-		<td style="vertical-align: top;width: 300px ">
-		<img src="${ CommonURL }${ upoloadDir }/profile/default_profile.png"
-		 style="border-radius: 150px; width: 150px; height: 150px;" id="profile"/><br>
-		 <input type="file" name="profile" id="profile" style="display: none;"/>
-		 <input type="button" value="이미지업로드" class="btn btn-success btn-sm"
-		  id="btnPorfile"/>
-		</td>
-		<td>
-		<h3>마이페이지- 정보수정</h3>
-		<table>
-		<tr>
-		<td>아이디</td>
-		<td><strong><c:out value="${ userInfo.id }"/></strong>
-		<input type="button" value="변경" class="btn btn-warning btn-sm" 
-			id="btnUpdate"/>
-			</td>
-		</tr>
-		<tr>
-		<td>이름</td>
-		<td><input type="text" name="name" id="name" value="" readonly="readonly"></td>
-		</tr>
-		<tr>
-		<td>이메일</td>
-		<td><input type="text" name="email" id="email" value=""></td>
-		</tr>
-		<tr>
-		<td>전화번호</td>
-		<td><input type="text" name="phone" id="phone" value=""></td>
-		</tr>
-		<tr>
-		<td>우편번호</td>
-		<td><input type="text" name="zipcode" id="zipcode" value="" style="width: 70px"
-				readonly="readonly"> 
-				<input type="button" value="검색" class="btn btn-success btn-sm"/></td>
-		</tr>
-		<tr>
-		<td>주소</td>
-		<td><input type="text" name="address" id="address" value="" style="width: 300px"
-				readonly="readonly"> 
-		</td>
-		</tr>
-		<tr>
-		<td>상세주소</td>
-		<td><input type="text" name="address2" id="address2" value="" style="width: 300px"/></td>
-		</tr>
-		<tr>
-		<td>가입 ip주소</td>
-		<td><span id="ip"></span></td>
-		</tr>
-		<tr>
-		<td>가입일</td>
-		<td><span id="input_date"></span></td>
-		</tr>
-		<tr>
-		<td colspan="2" align="center">
-			<input type="button" value="변경" class="btn btn-warning btn-sm" 
-			id="btnUpdate"/>
-		</td>
-		</tr>
-		
-		</table>
-		</td>
-		</tr>
-		</table>
-		</form>
+		<div id="profileWrap">
+			<form action="mypageProcess.jsp" method="post" id="mypageform" name="mypageform">
+			<div id="profileImg">
+			<img src="${ CommonUrl }${ UploadDir }/profile/default_profile.png" style="border-radius: 150px; width: 150px; height: 150px;" id="profile"/><br>
+			<input type="file" name="profile" id="profile" style="display: none;"/>
+			<input type="button" value="이미지 업로드" class="btn btn-sm btn-success" id="btnProfile">
+			</div>
+			<div id="userInfo">
+				<h3>마이페이지 - 정보수정</h3>
+				<table>
+					<tr>
+						<td>아이디</td>
+						<td><strong><c:out value="${ userInfo.id }"/></strong>
+						<input type="button" class="btn btn-sm btn-outline-primary" value="조회" id="btnSearch"/></td>
+					</tr>
+					<tr>
+						<td>이름</td>
+						<td><input type="text" name="name" value="" readonly="readonly" id="name"></td>
+					</tr>
+					<tr>
+						<td>이메일</td>
+						<td><input type="text" name="email" value="" id="email"></td>
+					</tr>
+					<tr>
+						<td>전화번호</td>
+						<td><input type="text" name="phone" value="" id="phone"></td>
+					</tr>
+					<tr>
+						<td>우편번호</td>
+						<td><input type="text" name="zipcode" value="" style="width: 70px;" readonly="readonly" id="zipcode"/>
+						<input type="button" value="검색" class="btn btn-sm btn-success"/>
+						</td>
+					</tr>
+					<tr>
+						<td>주소</td>
+						<td><input type="text" name="address" value="" style="widows: 300px" readonly="readonly" id="address"/></td>
+					</tr>
+					<tr>
+						<td>상세주소</td>
+						<td><input type="text" name="address2" value="" style="widows: 300px" id="address2"/></td>
+					</tr>
+					<tr>
+						<td>가입 IP</td>
+						<td><span id="ip"></span></td>
+					</tr>
+					<tr>
+						<td>가입일</td>
+						<td><span id="input_date"></span></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+							<input type="button" value="변경" class="btn btn-sm btn-warning" id="btnUpdate"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			</form>
 		</div>
-		<!-- FOOTER -->
-		<footer class="container">
-			<c:import url="${CommonURL}/fragments/footer.jsp"/>
-		</footer>
+
 	</main>
-	<script src="${CommonURL}/common/js/bootstrap.bundle.min.js"
+		<footer class="container">
+			<c:import url="${ CommonUrl }/fragments/footer.jsp"/>			
+		</footer>
+	<script src="${CommonUrl}/common/JS/bootstrap.bundle.min.js"
 		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>

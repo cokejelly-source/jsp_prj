@@ -1,21 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="../include/siteProperty.jsp" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<%-- <jsp:include page="../include/external_file.jsp"/> --%>
-<c:import url="${CommonURL}/fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 불가능 -->
+<jsp:include page="../fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -98,85 +100,75 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
 <script type="text/javascript">
 $(function(){
-	$("#query-btn").click(useQueryString);
-	$("#json-btn").click(useJSON);
-});//ready
+	$("#btnQueryString").click(useQueryString);
+	$("#btnJSON").click(useJSON);
+});
 
-function useQueryString() {
+function useQueryString(){
 	var name=$("#name").val();
 	var age=$("#age").val();
 	var addr=$("#addr").val();
-	
-	var param="na="+name+"&age="+age+"&address="+addr+"&type=QueryString";
+	var param = "na=" + name + "&age=" + age + "&address=" + addr+"&type=QueryString";
 	
 	$.ajax({
-		url : "ajaxParamProcess.jsp",
+		url: "ajaxParamProcess.jsp",
 		type: "get",
-		data : param,
-		dataType:"JSON",
+		data: param,
+		dataType: "JSON",
 		error: function(xhr){
-			console.log(xhr.status + " / " + xhr.statusText);
+			console.log(xhr.status + " / " + xhr.statusText)
 		},
-		success:function(jsonObj){
-			//응답받은 데이터를 parsing하여 사용
-			var output="<div>"+jsonObj.type + " : " + jsonObj.userName + "/"
-				+jsonObj.userAge+"/"+jsonObj.userAddr+"</div>";
+		success: function(jsonObj){
+			var output = "<div>" + jsonObj.type + " : " + jsonObj.userName + " / "+ jsonObj.userAge + " / "
+			+ jsonObj.userAddr + "</div>";
 			
-			//$("#output").html(output);
 			$("#output").append(output);
-			
-			//입력폼의 초기화
-			$("#name").val("");
-			$("#age").val("");
-			$("#addr").val("");
+			//입력폼 초기화
+			var name=$("#name").val("");
+			var age=$("#age").val("");
+			var addr=$("#addr").val("");
 		}
 	});
-}
+}// useQueryString
 
-function useJSON() {
+function useJSON(){
 	var name=$("#name").val();
 	var age=$("#age").val();
 	var addr=$("#addr").val();
-	
-	//JSONObject 생성
-	var param={na:name,age:age,address:addr,type:"QueryString"};
+	var param = {na : name, age : age, address : addr, type : "JSONObject"};
 	
 	$.ajax({
-		url : "ajaxParamProcess.jsp",
+		url: "ajaxParamProcess.jsp",
 		type: "get",
-		data : param,
-		dataType:"JSON",
+		data: param,
+		dataType: "JSON",
 		error: function(xhr){
-			console.log(xhr.status + " / " + xhr.statusText);
+			console.log(xhr.status + " / " + xhr.statusText)
 		},
-		success:function(jsonObj){
-			//응답받은 데이터를 parsing하여 사용
-			var output="<div>"+jsonObj.type + " : " + jsonObj.userName + "/"
-				+jsonObj.userAge+"/"+jsonObj.userAddr+"</div>";
-			
-			//JSONObjcet안에 JSONArray를 parsing하여 반복시켜 JSONArray안에
-			//JSONObject을 얻어서 파싱한다.
-				output+"<ul>"
-			$.each(jsonObj.data,function(i,jsonTemp){
-				//JSONArray안에 JSONObject을 얻어와서 Parsing
-				output + "<li>" + jsonTemp.subject+"</li>"				
-			});//each
-				output+="</ul>"
-			//$("#output").html(output);
+		success: function(jsonObj){
+			var output = "<div>" + jsonObj.type + " : " + jsonObj.userName + " / "+ jsonObj.userAge + " / "
+			+ jsonObj.userAddr + "</div>";
+			output += "<ul>";
+			$.each(jsonObj.data, function(i,jsonTemp){
+				output += "<li>" + jsonTemp.subject + "</li>";
+			});
+			output += "</ul>";
 			$("#output").append(output);
-			
-			//입력폼의 초기화
-			$("#name").val("");
-			$("#age").val("");
-			$("#addr").val("");
+			//입력폼 초기화
+			var name=$("#name").val("");
+			var age=$("#age").val("");
+			var addr=$("#addr").val("");
 		}
 	});
-}
+}// useJSON
+
+
 </script>
 </head>
 <body>
@@ -239,29 +231,30 @@ function useJSON() {
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<c:import url="${CommonURL}/fragments/navigationBar.jsp"/>
+			<jsp:include page="../fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
-		<div>
-		<h3>AJAX web parameter 전송</h3>
-		<label>이름</label><input type="text" id="name"/><br>
-		<label>나이</label><input type="text" id="age"/><br>
-		<label>주소</label><input type="text" id="addr"/><br>
-		<input type="button" value="QueryString형식" class="btn btn-sm btn-info" id="query-btn"/>
-		<input type="button" value="JSONObject형식" class="btn btn-sm btn-primart" id="json-btn"/>
-		<div id="output" style="min-height: 200px; overflow: auto">
-		
+		<div style="padding: 20px">
+			<h3>AJAX web parameter 전송</h3>
+			<label>이름</label><input type="text" name="name" id="name"/><br>
+			<label>나이</label><input type="text" name="age" id="age"/><br>
+			<label>주소</label><input type="text" name="addr" id="addr"/><br><br>
+			<input type="button" value="QueryString형식" class="btn btn-sm btn-outline-info" id="btnQueryString"/>
+			<input type="button" value="JSONObject형식" class="btn btn-sm btn-outline-primary" id="btnJSON"/>
+			
+			<div id="output" style="min-height: 200px; overflow: auto;">
+			</div>
+			
 		</div>
-		</div>
-		
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<c:import url="${CommonURL}/fragments/footer.jsp"/>
+			<jsp:include page="../fragments/footer.jsp"/>			
 		</footer>
 	</main>
-	<script src="${CommonURL}/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

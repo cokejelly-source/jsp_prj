@@ -1,25 +1,29 @@
+<%@page import="kr.co.sist.util.BoardUtil"%>
 <%@page import="kr.co.sist.board.BoardDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="kr.co.sist.board.BoardService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../include/siteProperty.jsp" %>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
 <meta name="theme-color" content="#712cf9">
-
-<c:import url="${CommonURL}/fragments/external_file.jsp"/>
-
+<!-- 변수와 메소드 공유 불가능 -->
+<jsp:include page="../fragments/external_file.jsp"/>
+<!-- 변수와 메소드 공유 가능 -->
+<%-- <%@include file="../include/external_file.jsp" %> --%>
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -102,11 +106,37 @@
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
-
-a { color:#858585; text-decoration: none}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+a { color: #858585; text-decoration: none; }
+#currentPage { color: #ff0000;}
 </style>
+
+<script type="text/javascript">
+$(function(){
+	$("#keyword").keyup(function( evt ){
+		if (evt.which == 13) {
+			chkNull();
+		}
+	});
+	
+	$("#btnSearch").click(chkNull);
+	//fieldNum 선택 상태로 만든다.
+	
+	$("#fieldNum").val("${ empty param.fieldNum?'0':param.fieldNum }")
+});
+
+function chkNull(){
+	var keyword = $("#keyword").val();
+	if(keyword.trim()==""){
+		alert("검색어를 입력해 주세요.");
+		return;
+	}
+	$("#searchForm").submit();
+}
+
+
+</script>
 </head>
 <body>
 	<svg xmlns="http://www.w3.org/2000/svg" class="d-none"> <symbol
@@ -168,109 +198,135 @@ a { color:#858585; text-decoration: none}
 	</div>
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-		<c:import url="/fragments/navigationBar.jsp"/>
+			<jsp:include page="/fragments/navigationBar.jsp"/>		
 		</nav>
 	</header>
 	<main>
-	<div id="boardDiv" style="margin-top: 20px">
-	<jsp:useBean id="rDTO" class="kr.co.sist.board.RangeDTO" scope="page"/>
-	<jsp:setProperty property="*" name="rDTO"/>
-	<%
-	BoardService bs=new BoardService();
-	//1.총 레코드 수
-	int totalCount=0;
-	totalCount=bs.totalCount();
-	//2.한 화면에 보여질 게시글의 수
-	int pageScale=10;
-	//3. 총 페이지 수
-	int totalPage= (int)Math.ceil( (double)totalCount/pageScale);
-	
-	//4.선택한 페이지의 시작번호 구하기
-	String tempPage=request.getParameter("currentPage");
-	int currentPage=1;
+		<div id="board" style="margin-top: 20px">
+		<jsp:useBean id="rDTO" class="kr.co.sist.board.RangeDTO" scope="page"/>
+		<jsp:setProperty property="*" name="rDTO"/>
+			<%
+			// 1.전체 레코드 수 구하기
+			BoardService bs = new BoardService();
+			int totalCount = bs.totalCount(rDTO);
+			
+			// 2.한 화면에 보여질 게시글의 수
+			int pageScale = bs.pageScale();
+			
+			// 3.총페이지수
+			int totalPage = bs.totalPage();
+			
+			// 4.선택한 페이지의 시작 번호 구하기
+			String tempPage = request.getParameter("currentPage");
+			int currentPage = bs.currentPage(tempPage);
+			int startNum = bs.startNum();
+			
+			// 5.선택한 페이지의 끝 번호 구하기
+			int endNum = bs.endNum();
+			
+			rDTO.setStartNum(startNum);
+			rDTO.setEndNum(endNum);
+			
+			List<BoardDTO> bList =  bs.searchBoard(rDTO);
+			
+			pageContext.setAttribute("totalCount", totalCount);
+			pageContext.setAttribute("pageScale", pageScale);
+			pageContext.setAttribute("totalPage", totalPage);
+			pageContext.setAttribute("startNum", startNum);
+			pageContext.setAttribute("endNum", endNum);
+			pageContext.setAttribute("currentPage", currentPage);
+			pageContext.setAttribute("bList", bList);
+			%>
+			<%-- 총 레코드: ${ totalCount }<br>
+			한 화면에 보여질 게시글의 수: ${ pageScale }<br>
+			페이지 수: ${ totalPage }<br>
+			현재 페이지: ${ currentPage }<br>
+			시작번호: ${ startNum }<br>
+			끝번호: ${ endNum }<br> --%>
+			<div id="divBoardHeader">
+			<c:if test="${ not empty userInfo }" >
+				<a href="boardWriteForm.jsp" class="btn btn-sm btn-outline-success">글작성</a> 
+			</c:if>
+			</div>
+			<div id="divBoardContent" style="height: 500px;">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<td style="width: 10%">번호</td>
+							<td style="width: 35%">제목</td>
+							<td style="width: 10%">작성자</td>
+							<td style="width: 25%">작성일</td>
+							<td style="width: 10%">첨부파일</td>
+							<td style="width: 10%">조회수</td>
+						</tr>
+					</thead>
+					<tbody>
+						<c:if test="${ empty bList }">
+						<tr>
+							<td colspan="6" style="text-align: center;">
+								게시글이 없습니다.
+							</td>
+						</tr>
+						</c:if>
+					<c:forEach var="bDTO" items="${ bList }" varStatus="i">
+						<tr>
+							<td><c:out value="${ totalCount - (i.index + startNum) + 1 }"/></td>
+							<td>
+							<c:set var="detailQueryString" value="num=${ bDTO.num }&currentPage=${ currentPage }"/>
+							<c:if test="${not empty param.keyword}">
+								<c:set var="detailQueryString" value="${detailQueryString}&fieldNum=${param.fieldNum}&keyword=${param.keyword}"/>
+							</c:if>
+							<a href="boardDetail.jsp?${detailQueryString}"><c:out value="${ bDTO.title }"/></a></td>
+							<td><c:out value="${ bDTO.id }"/></td>
+							<td><fmt:formatDate value="${ bDTO.inputDate }" pattern="yyyy-MM-dd kk:mm:ss"/></td>
+							<td><c:if test="${ not empty bDTO.upfile }">
+							<a href="${ CommonUrl }${UploadDir}/${bDTO.upfile}"><img src="images/img.png" style="width: 25px; "/></a>
+							</c:if></td>
+							<td><c:out value="${ bDTO.cnt }"/></td>
+						</tr>		
+					</c:forEach>
+					
+					</tbody>
+				</table>
+			</div>
+			<div id="divSearchForm" style="height: 80px;">
+			<form id="searchForm" name="searchForm" action="boardList.jsp" style="text-align: center;">
+				<select name="fieldNum" style="height: 30px;" id="fieldNum">
+					<option value="0">제목</option>
+					<option value="1">내용</option>
+					<option value="2">작성자</option>
+				</select>
+				<input type="text" name="keyword" id="keyword" value="${ param.keyword }"/>
+				<input type="button" value="검색" class="btn btn-sm btn-success" id="btnSearch"/>
+				<input type="text" style="display: none;"/>
+			</form>
+			</div>
+			
+			<div id="dibPagination" style="text-align: center;">
+			<%=
+			BoardUtil.pagination(currentPage, totalPage, "boardList.jsp", rDTO.getFieldNum(), rDTO.getKeyword()) %>
+				
+			</div>
 
-	if( tempPage != null){ //pagination을 클릭했을 때 1,2,3,4  해당 페이지 번호가 입력
-		currentPage=Integer.parseInt(tempPage);
-	}//end if
-	
-	int startNum=1;
-	startNum= currentPage * pageScale-pageScale+1;
-	
-    //5.선택한 페이지의 끝번호 구하기    
-    int endNum=startNum+pageScale-1;
-    
-    rDTO.setStartNum(startNum);
-    rDTO.setEndNum(endNum);
-    
-    List<BoardDTO> listBoard=bs.searchBoard(rDTO);
-	
-	pageContext.setAttribute("totalCount", totalCount);
-	pageContext.setAttribute("pageScale", pageScale);
-	pageContext.setAttribute("totalPage", totalPage);
-	pageContext.setAttribute("startNum", startNum);
-	pageContext.setAttribute("endNum", endNum);
-	pageContext.setAttribute("currentPage", currentPage);
-	pageContext.setAttribute("listBoard", listBoard);
-	%>
-<%-- 	총 레코드 수 : ${ totalCount }건<br>
-	한 화면에 보여질 게시글 수 : ${ pageScale }건<br>
-	총 페이지 수 : ${ totalPage }장<br>
-	현제 페이지 : ${currentPage }<br> 
-	시작번호 : ${ startNum }<br>
-	끝번호 : ${ endNum }<br> --%>
-	<div id="divBoardHeader">
-	<c:if test="${ not empty userInfo }">
-	<a href="boardWriteForm.jsp" class="btn btn-success btn-sm">글작성</a>
-	</c:if>
-	</div>
-	<div id="divBoardContent" style="height: 500px">
-	<table class="table table-hover">
-	<thead>
-	<tr>
-	<th style="width: 80px">번호</th>
-	<th style="width: 400px">제목</th>
-	<th style="width: 130px">작성자</th>
-	<th style="width: 150px">작성일</th>
-	<th style="width: 80px">조회수</th>
-	</tr>
-	</thead>
-	<tbody>
-	<c:if test="${ empty listBoard }">
-	<tr>
-	<td colspan="5" style="text-align: center">게시글이 없습니다.</td>
-	</tr>
-	</c:if>
-	<c:forEach var="bDTO" items="${listBoard }" varStatus="i">
-	<tr>
-	<td><c:out value="${ totalCount-(currentPage-1)*pageScale-i.index }"/></td>
-	<td><a href="boardDetail.jsp?num=${ bDTO.num }&currentPage=${currentPage}"><c:out value="${ bDTO.title }"/></a></td>
-	<td><c:out value="${ bDTO.id }"/></td>
-	<td><fmt:formatDate value="${ bDTO.inputDate }" pattern="yyyy-MM-dd kk:mm:ss"/></td>
-	<td><c:out value="${ bDTO.cnt }"/></td>
-	</tr>
-	</c:forEach>
-	
-	</tbody>
-	</table>
-	</div>
-	<div id="divSearchForm" style="height: 80px">
-	
-	</div>
-	<div id="divPagination" style="text-align: center">
-		<c:forEach var="i" begin="1" end="${ totalPage }" step="1">
-		[<a href="boardList.jsp?currentPage=${i }">${i }</a>]
-		</c:forEach>
-	</div>
-	
-	</div>
-	
+		</div>
+		<!-- Marketing messaging and featurettes
+  ================================================== -->
+		<!-- Wrap the rest of the page in another container to center all the content. -->
+		<div class="container marketing">
+			<!-- Three columns of text below the carousel -->
+				<%--<jsp:include page="../fragments/row.jsp"/>--%>
+			<!-- /.row -->
+			<!-- START THE FEATURETTES -->
+				<%--<jsp:include page="../fragments/detail.jsp"/>--%>
+			<!-- /END THE FEATURETTES -->
+		</div>
 		<!-- /.container -->
 		<!-- FOOTER -->
 		<footer class="container">
-			<c:import url="${CommonURL}/fragments/footer.jsp"/>
+			<jsp:include page="../fragments/footer.jsp"/>			
 		</footer>
 	</main>
-	<script src="${CommonURL}/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
 		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>

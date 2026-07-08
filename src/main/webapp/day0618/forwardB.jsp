@@ -1,11 +1,11 @@
 <%@page import="day0612.TestDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%
-//업무처리페이지(forwardA.jsp)에서 업무처리한 결과를 받기
-String name=(String)request.getAttribute("name");
-List<TestDTO> list=(List<TestDTO>)request.getAttribute("memberList");
+//업무처리한 페이지(forwardA.jsp)에서 결과받기
+String name = (String)request.getAttribute("name");
+List<TestDTO> tList = (List<TestDTO>)request.getAttribute("memberList");
 %>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
@@ -13,13 +13,18 @@ List<TestDTO> list=(List<TestDTO>)request.getAttribute("memberList");
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
-<title><%=name %>님 어서오고</title>
-<script src="http://localhost/jsp_prj/common/js/color-modes.js"></script>
-<link href="http://localhost/jsp_prj/common/js/bootstrap.min.css" rel="stylesheet">
+<title><%=name%></title>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
+<script src="http://localhost/jsp_prj/common/JS/color-modes.js"></script>
+<link href="http://localhost/jsp_prj/common/JS/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB">
 
 <meta name="theme-color" content="#712cf9">
-<link href="http://localhost/jsp_prj/common/js/carousel.css" rel="stylesheet">
+<link href="http://localhost/jsp_prj/common/JS/carousel.css" rel="stylesheet">
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -102,8 +107,9 @@ List<TestDTO> list=(List<TestDTO>)request.getAttribute("memberList");
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
 </head>
 <body>
@@ -167,7 +173,7 @@ List<TestDTO> list=(List<TestDTO>)request.getAttribute("memberList");
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 			<div class="container-fluid">
-				<!-- <a class="navbar-brand" href="#">Carousel</a> -->
+				<a class="navbar-brand" href="#">Carousel</a>
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
 					aria-controls="navbarCollapse" aria-expanded="false"
@@ -177,7 +183,7 @@ List<TestDTO> list=(List<TestDTO>)request.getAttribute("memberList");
 				<div class="collapse navbar-collapse" id="navbarCollapse">
 					<ul class="navbar-nav me-auto mb-2 mb-md-0">
 						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="#">메인</a></li>
+							aria-current="page" href="#">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="javascript:history.back()" >이전으로</a></li>
 						<li class="nav-item"><a class="nav-link disabled"
 							aria-disabled="true">Disabled</a></li>
@@ -321,39 +327,37 @@ List<TestDTO> list=(List<TestDTO>)request.getAttribute("memberList");
 			<hr class="featurette-divider">
 			<div class="row featurette">
 				<div class="col-md-7">
-					forwardA.jsp에서 업무처리한 결과를 받아와서 보여지는 일에 집중.
-					<br>
-					<div>
-					<span><%=name %></span>님 조회한 결과 입니다.
-					</div>
-					<div>
-					<table class="table table-hover">
+				forwardA.jsp에서 업무처리한 결과를 받아와서 보여지는 일에 집중.
+				<br>
+				<div><span><%=name%></span>님 조회한 결과 입니다.</div>
+				<div>
+				<table class="table table-hover">
 					<thead>
-					<tr>
-					<th>번호</th>
-					<th>이름</th>
-					<th>나이</th>
-					</tr>
+						<tr>
+							<th>번호</th>
+							<th>이름</th>
+							<th>나이</th>
+						</tr>
 					</thead>
 					<tbody>
-					<tr>
-					<%if(list.isEmpty()){%>
-					<tr><td colspan="3">데이터가 없습니다.</td></tr>
-					<%}//end if %>
-					
 					<%
-					TestDTO tDTO;
-					for(int i=0;i<list.size();i++){ 
-					tDTO=list.get(i);
+					if (tList.isEmpty()){%>
+						<tr><td colspan="3">데이터가 없습니다</td></tr>
+					<%}%>
+					<%
+					TestDTO tDTO = null;
+					for (int i = 0; i < tList.size(); i++){
+						tDTO = tList.get(i);
 					%>
-					<tr>
-					<td><%=i+1 %></td>
-					<td><%=tDTO.getName() %></td>
-					<td><%=tDTO.getAge() %></td>
-					<%}//end for %>
+						<tr>
+							<td><%=i+1%></td>
+							<td><%=tDTO.getName()%></td>
+							<td><%=tDTO.getAge()%></td>
+						</tr>
+					<%}%>
 					</tbody>
-					</table>
-					</div>
+				</table>
+				</div>
 				</div>
 				<div class="col-md-5">
 					<svg aria-label="Placeholder: 500x500"
@@ -417,12 +421,12 @@ List<TestDTO> list=(List<TestDTO>)request.getAttribute("memberList");
 				<a href="#">Back to top</a>
 			</p>
 			<p>
-				&copy; 2017–2025 Company, Inc. &middot; <a href="#">Privacy</a>
-				&middot; <a href="#">Terms</a>
+				&copy; class 2.
 			</p>
 		</footer>
 	</main>
-	<script src="http://localhost/jsp_prj/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>

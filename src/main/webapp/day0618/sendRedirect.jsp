@@ -1,41 +1,46 @@
 <%@page import="java.util.Random"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%
-//특정 ip로 요청되면 다른 site로 이동.
-String ip=request.getRemoteAddr();
+//특정 IP로 요청되면 다른 사이트로 이동.
+String ip = request.getRemoteAddr();
 
-String[] blockedIp={"192.168.10.70","192.168.10.87","192.168.10.74"};
+String[] blockedIP = {"192.168.10.70"};
 
-boolean moveFlag=false;
+boolean moveFlag = false;
 
-for(int i=0;i<blockedIp.length;i++){
-	if(moveFlag=ip.equals(blockedIp[i])){
+for (int i = 0; i < blockedIP.length; i++) {
+	if (moveFlag = ip.equals(blockedIP[i])) {
 		break;
 	}
+}// end for
+
+if (/* moveFlag */new Random().nextBoolean()) {
+	//response.sendRedirect("https://naver.com");
+	//페이지를 이동하더라도 아랫의 코드를 실행한 후 이동을 한다.
+	response.sendRedirect("postParameterForm.jsp");
+	//아래의 코드 실행을 막기위해 return과 함께 사용
+	return;
 }
-
-if(/*moveFlag*/new Random().nextBoolean()){
-//response.sendRedirect("https://www.police.go.kr/index.do");//URL
-response.sendRedirect("poastParameterForm.jsp");//URI
-//페이지를 이동하더라도 아랫줄의 코드를 실행하면서 이동을 한다.
-return;
-}//end if
 %>
-
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Astro v5.13.2">
 <title>Carousel Template · Bootstrap v5.3</title>
-<script src="http://localhost/jsp_prj/common/js/color-modes.js"></script>
-<link href="http://localhost/jsp_prj/common/js/bootstrap.min.css" rel="stylesheet">
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.3/examples/carousel/">
+<script src="http://localhost/jsp_prj/common/JS/color-modes.js"></script>
+<link href="http://localhost/jsp_prj/common/JS/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB">
 
 <meta name="theme-color" content="#712cf9">
-<link href="http://localhost/jsp_prj/common/js/carousel.css" rel="stylesheet">
+<link href="http://localhost/jsp_prj/common/JS/carousel.css" rel="stylesheet">
 <style>
 .bd-placeholder-img {
 	font-size: 1.125rem;
@@ -118,8 +123,9 @@ return;
 	display: block !important
 }
 
-.blue{ color : #0000FF}
-.red{ color : #FF0000}
+.blue { color: #0000FF; }
+.red { color: #FF0000; }
+
 </style>
 </head>
 <body>
@@ -183,7 +189,7 @@ return;
 	<header data-bs-theme="dark">
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 			<div class="container-fluid">
-				<!-- <a class="navbar-brand" href="#">Carousel</a> -->
+				<a class="navbar-brand" href="#">Carousel</a>
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
 					aria-controls="navbarCollapse" aria-expanded="false"
@@ -193,7 +199,7 @@ return;
 				<div class="collapse navbar-collapse" id="navbarCollapse">
 					<ul class="navbar-nav me-auto mb-2 mb-md-0">
 						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="#">메인</a></li>
+							aria-current="page" href="#">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="javascript:history.back()" >이전으로</a></li>
 						<li class="nav-item"><a class="nav-link disabled"
 							aria-disabled="true">Disabled</a></li>
@@ -338,10 +344,15 @@ return;
 			<div class="row featurette">
 				<div class="col-md-7">
 					<h2 class="featurette-heading fw-normal lh-1">
+					<%
+					String color = "blue";
+					String method = request.getMethod();
 					
-						요청방식 <span class="text-body-secondary">
-						<span class=" blue">GET</span>
-						</span>
+					if ("POST".equals(method)){
+						color = "red";
+					}
+					%>
+						요청방식 <span class="text-body-secondary"><span class="<%=color%>"><%=method %></span></span>
 					</h2>
 					<p class="lead">Some great placeholder content for the first
 						featurette here. Imagine some exciting prose here.</p>
@@ -408,14 +419,15 @@ return;
 				<a href="#">Back to top</a>
 			</p>
 			<p>
-				&copy; Class2
+				&copy; class 2.
 			</p>
 		</footer>
 	</main>
-	<script src="http://localhost/jsp_prj/common/js/bootstrap.bundle.min.js"
+	<script src="http://localhost/jsp_prj/common/JS/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		class="astro-vvvwv3sm"></script>
 </body>
 </html>
 <%
-log("dasdsadasdsadasdasdasdsadsa");
+log("1234sdaf");
 %>

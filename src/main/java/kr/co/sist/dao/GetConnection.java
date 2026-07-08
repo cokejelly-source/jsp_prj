@@ -13,45 +13,49 @@ import javax.sql.DataSource;
 public class GetConnection {
 	private static GetConnection gc;
 	
-	private GetConnection() {
-		
-	}
+	private GetConnection() {}
 	
 	public static GetConnection getInstance() {
-		if(gc==null) {
-			gc=new GetConnection();
-		}//end if
+		if (gc == null) {
+			gc = new GetConnection();
+		} // end if
 		return gc;
-	}//getInstance
+	} // getInstance
 	
-	public Connection getConn(String dbcpName) throws SQLException {
-		Connection con=null;
-		
-		
+	//public Connection getConn(String dbcpName) throws SQLException {
+	public Connection getConn() throws SQLException {
+		Connection con = null;
 		try {
-		//1.JBDI(이름으로 객체를 찾는 자바의 기술) 사용객체 생성
-		Context ctx=new InitialContext();
-
-		//2.이름으로 DBCP에 DB와 연결하고 있는 객체(javax.sql.DataSource) 얻기
-		//DataSource ds=(DataSource)ctx.lookup("java:comp/env/jdbc/dbcp");
-		DataSource ds=(DataSource)ctx.lookup("java:comp/env/jdbc/" + dbcpName);
-
-		//3.Connection 얻기
-		con=ds.getConnection();
-		}catch(NamingException ne) {
-			ne.printStackTrace();
-		}//end catch
+			
+		Context ctx = new InitialContext();
+		//DataSource ds = (DataSource) ctx.lookup("java:comp/env/"+dbcpName);
+		DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/dbcp");
+		con = ds.getConnection();
 		
+		} catch (NamingException ne){
+			ne.printStackTrace();
+		}// end catch
+
 		return con;
-	}//getConn
+	}// getConn
 	
 	public void dbClose(ResultSet rs, Statement stmt, Connection con) throws SQLException {
 		
 		try {
-			if(rs != null) {rs.close();}//end if
-			if(stmt != null) {stmt.close();}//end if
-		}finally {
-			if(con != null) {con.close();}//end if
-		}//end finally
-	}
-}
+			if (rs != null) {
+				rs.close();
+			} // end if
+
+			if (stmt != null) {
+				stmt.close();
+			} // end if
+
+		} finally {
+			if (con != null) {
+				con.close();
+			} // end if
+		} // end finally
+	
+	}// dbClose()
+	
+}// class
