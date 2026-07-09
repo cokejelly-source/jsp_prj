@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-public class HangulUtil {
+public class HanGulUtil {
 	public static String decode(String hangul) {
 		if (hangul == null && "".equals(hangul)) {
 			return "";

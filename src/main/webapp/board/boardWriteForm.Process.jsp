@@ -22,7 +22,7 @@ request.setCharacterEncoding("UTF-8"); %>
 <jsp:setProperty name="bDTO" property="ip" value="<%=request.getRemoteAddr() %>"/>
 <%
 //request는 web parameter를 받을 수 없다.
-File saveDir=new File("C:/Users/cokejelly/git/jsp_prj/jsp_prj/src/main/webapp/upload");
+File saveDir=new File("C:/webhome/upload/profile");//("C:/Users/cokejelly/git/jsp_prj/jsp_prj/src/main/webapp/upload");
 MultipartRequest mr=new MultipartRequest(request, saveDir.getAbsolutePath());
 bDTO.setTitle(URLDecoder.decode(URLEncoder.encode(mr.getParameter("title"),"8859_1"),"UTF-8"));
 bDTO.setContent(mr.getParameter("content"));

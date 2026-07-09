@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import kr.co.sist.dao.GetConnnection;
+import kr.co.sist.dao.GetConnection;
 import kr.co.sist.user.member.MemberDTO;
 
 public class MyPageDAO {
@@ -27,7 +27,7 @@ public class MyPageDAO {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		
-		GetConnnection gc=GetConnnection.getInstance();
+		GetConnection gc=GetConnection.getInstance();
 		
 		try {
 			//커넥션얻기
@@ -66,7 +66,7 @@ public class MyPageDAO {
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		
-		GetConnnection gc=GetConnnection.getInstance();
+		GetConnection gc=GetConnection.getInstance();
 		
 		try {
 			//커넥션얻기
